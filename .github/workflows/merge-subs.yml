@@ -15,7 +15,7 @@ jobs:
       - name: Merge subs
         run: |
           set -e
-          OUT_DIR=./public
+          OUT_DIR=./docs
           OUT_FILE="$OUT_DIR/combined.sub"
           TMP1=$(mktemp)
           TMP2=$(mktemp)
