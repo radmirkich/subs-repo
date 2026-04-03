@@ -24,9 +24,10 @@ jobs:
           URL1="https://77.221.140.160:2096/sub/9ytjm08c11upzxch"
           URL2="https://150.241.75.188:2096/sub/8k1r0ez7cvxecn8i"
 
-          # Для теста с самоподписанными сертификатами можно временно добавить --insecure к curl
-          curl -s --max-time 20 "$URL1" > "$TMP1" || true
-          curl -s --max-time 20 "$URL2" > "$TMP2" || true
+          # Для теста с самоподписанными сертификатами используется --insecure.
+          # Уберите --insecure после настройки валидных сертификатов.
+          curl -s --insecure --max-time 20 "$URL1" > "$TMP1" || true
+          curl -s --insecure --max-time 20 "$URL2" > "$TMP2" || true
 
           # объединяем, удаляем пустые строки и дубликаты
           cat "$TMP1" "$TMP2" | sed '/^\s*$/d' | awk '!seen[$0]++' > "$OUT_FILE"
@@ -37,7 +38,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/combined.sub || true
+          git add docs/combined.sub || true
           if ! git diff --quiet --cached; then
             git commit -m "Update combined.sub: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
             git push
